@@ -1,21 +1,21 @@
 import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Configuration;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.By;
-import com.codeborne.selenide.commands.UploadFileFromClasspath;
-
-import java.io.File;
 
 import static com.codeborne.selenide.Condition.exactText;
-import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selenide.*;
 
-public class HW02_demoqa {
+public class RegistrationFormTest {
+    @BeforeAll
+    static void beforeAll(){
+        Configuration.baseUrl = "https://demoqa.com";
+        Configuration.pageLoadStrategy = "eager";
+    }
 
     @Test
     void successfulSearchTest() {
-        Configuration.pageLoadStrategy="eager";
-        open("https://demoqa.com/automation-practice-form");
+        open("/automation-practice-form");
         executeJavaScript("$('#fixedban').remove()");
         executeJavaScript("$('footer').remove()");
 
@@ -23,7 +23,7 @@ public class HW02_demoqa {
         $("#firstName").setValue("Juzeppe");
         $("#lastName").setValue("Fortunatti");
         $("#userEmail").setValue("JuzzForti@yopmail.com");
-        sleep(2000);
+//        sleep(2000);
 
         //сетим пол + мобилу + DOB
         $("label[for='gender-radio-1']").click();
@@ -32,21 +32,20 @@ public class HW02_demoqa {
         $(".react-datepicker__month-select").selectOptionByValue("0");
         $(".react-datepicker__year-select").selectOptionByValue("1988");
         $(".react-datepicker__day--005").click();
-        sleep(2000);
+//        sleep(2000);
 
         //сетми интерес
         $x("//div[@id='subjectsContainer']//input").setValue("Arts").pressEnter();
         $("label[for='hobbies-checkbox-3']").click();
-        sleep(2000);
+//        sleep(2000);
 
         //сетим пикчу
-        File file = new File("C:/Users/black/OneDrive/Desktop/WorkSpace/ONYX.PNG");
-        $x("//input[@id='uploadPicture']").uploadFile(file);
-        sleep(2000);
+        $("#uploadPicture").uploadFromClasspath("ONYX.PNG");
+//        sleep(2000);
 
         //сетим адрес+штат+город
         $("#currentAddress").setValue("Не дом и не улица. Мой адрес - Советский Союз!");
-        sleep(2000);
+//        sleep(2000);
 
         $x("//*[contains(text(), 'Select State')]").shouldBe(Condition.interactable)
                 .scrollTo().click();
@@ -56,11 +55,11 @@ public class HW02_demoqa {
                 .scrollTo().click();
         $x("//*[contains(text(), 'Delhi')]").shouldBe(Condition.interactable)
                 .scrollTo().click();
-        sleep(2000);
+//        sleep(2000);
 
         //кликаем сабмит
         $x("//*[contains(text(), 'Submit')]").click();
-        sleep(2000);
+//        sleep(2000);
 
         //проверка данных
         $x("//td[contains(text(), 'Student Name')]/following-sibling::td[1]")
@@ -82,4 +81,3 @@ public class HW02_demoqa {
                 .shouldHave(exactText("NCR Delhi"));
     }
 }
-
